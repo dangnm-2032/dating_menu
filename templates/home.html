@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating Menu</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+    <link rel="icon" type="image/svg" href="{{url_for('static',filename='favicon.svg')}}"> 
+</head>
+<body>
+    <div id="welcome" class="relative w-screen h-screen">
+        <img class="absolute inset-0 w-full h-full object-cover opacity-40" src="{{url_for('static',filename='background.JPG')}}">
+        
+        <div class="relative z-10 flex items-center justify-center w-full h-full">
+            <div class="text-center text-white text-shadow-xs text-shadow-black">
+                <h1 class="text-4xl font-bold">Hé lu cục zàng ❤️</h1>
+                <p class="mt-2 px-6 text-xl">Nhờ bé thêm vào giỏ hàng các hoạt động hay quán ăn uống mà bé iu thích trong danh sách dưới đây nhé :3</p>
+                <p class="mt-60 px-6 text-lg italic">"Ơiiii ai mà xinh thíaaaa"</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="overview" class="relative w-screen text-center px-6 py-20 bg-[#FFFDF1] text-[#562F00]">
+        <p class="text-lg font-bold">Các mục sẽ có là: Hoạt động, quán ăn trưa, quán cafe, và quán ăn tối.</p>
+        <p class="mt-4 text-lg font-bold">Bé iu thích cái nào thì tick cái đó, sau đó ấn Xác nhận để anh biết nhó</p>
+        <p class="mt-4 text-lg font-bold">Mỗi mục anh sẽ chọn 1 thứ để lên plan nè :3</p>
+        <p class="mt-1 text-sm italic">Đừng chọn hết nha, hãy thưn anh </p>
+    </div>
+
+    <form action="/submit" method="post">
+    {% for section in menu_data %}
+    <div id="{{section}}" class="relative w-screen py-15">
+        <div class="px-6 py-4 text-center">
+            <p class="text-2xl font-bold text-[#562F00]">{{ menu_data[section].name }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-12 py-6">
+            {% for data in menu_data[section].data %}
+            <div class="bg-[#FFFDF1] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                
+                <!-- Image -->
+                <img 
+                    class="h-40 w-full object-cover"
+                    src="{{ data.images[0]}}" 
+                    alt=""
+                >
+
+                <!-- Content -->
+                <div class="p-4 flex flex-col justify-between h-[160px]">
+                    
+                    <!-- Title -->
+                    <p class="font-bold text-xl text-[#562F00]">
+                        {{ data.name }}
+                    </p>
+
+                    <!-- Description -->
+                    <p class="text-sm text-[#562F00]/80 truncate">
+                        {{ data.description }}
+                    </p>
+
+                    <!-- Footer -->
+                    <div class="flex items-center justify-between mt-3">
+                        <a href="javascript:void(0)" 
+                            class="text-sm text-[#562F00] font-medium hover:underline cursor-pointer" 
+                            onclick='showModal({{ data.name | tojson | safe }}, {{ data.description | tojson | safe }}, {{ data.address | tojson | safe }}, {{ data.images }})'>
+                                Chi tiết
+                        </a>
+
+                        <div class="flex gap-3">
+                            <p class="opacity-40">Chọn nè -&gt; </p>
+                            <input type="checkbox" name="{{ data.name }}"
+                                class="peer appearance-none w-8 h-8 border-2 border-green-300 rounded-md 
+                                    checked:bg-green-300 checked:border-transparent 
+                                    focus:outline-none focus:ring-2 focus:ring-green-200 transition-all">
+                            
+                            <div class="absolute invisible peer-checked:visible pointer-events-none ml-2">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <div id="confirm" class="p-12">
+        <label class="peer flex items-center gap-3"><input type="checkbox" id="agree-checkbox">Bé iu đã chọn xong rùi he :3</label>
+        
+        <input type="submit" class="pointer-events-none peer-has-checked:bg-green-300 peer-has-checked:pointer-events-auto bg-gray-300 w-full h-15 text-lg text-white rounded-lg focus-within:bg-green-400" value="Dạ rồiiii">
+    </div>
+    </form>
+
+    <div class="modal absolute sticky inset-0 z-20 w-screen h-screen bg-white overflow-y-auto p-4" style="display: none" id="modal">
+        <div class="">  
+            <button class="h-15 w-full sticky top-0 text-center bg-red-300 font-bold text-lg rounded-lg" onclick="closeModal()">Hide</button>
+            <p class="my-3 text-4xl font-extrabold" id="modal-name"></p>
+            <p class="my-3 text-xl italic" id="modal-address"></p>
+            <p class="my-3 text-2xl" id="modal-description"></p>
+            <div class="columns-2" id="modal-images">
+            </div>
+        </div>
+    </div>
+
+<script>
+    function showModal(name, description, address, images) {
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-description').textContent = description;
+        document.getElementById('modal-address').textContent = address;
+
+        let html = '';
+        for (let i = 0; i < images.length; i++) {
+            html += `<img class="py-2" src="${images[i]}" alt="">`;
+        }
+        document.getElementById('modal-images').innerHTML = html;
+
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    
+</script>
+</body>
+</html>
