@@ -1,4 +1,3 @@
-from tkinter import Menu
 from flask import Flask, render_template, request, redirect
 import yaml
 import time
