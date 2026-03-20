@@ -6,8 +6,11 @@ activity:
       address: "28 Lê Thánh Tôn, Q1"
       description: "Xem những vở kich của IDECAF nếu có nè. Một vở diễn thì khoảng 3-4 tiếng ó."
       images: 
-        - "http://kichidecaf.com/profiles/kichidecafcom/uploads/attach/1715141108_z53663624043262%E1%BA%B9c72d%E1%BA%A1539%E1%BA%BB15d2.jpg"
-        - "http://kichidecaf.com/profiles/kichidecafcom/uploads/attach/1704959260_41200154767162900183303153534330.jpg"
+        - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlJRO1yTbERIr1LLXgUmWDRYBzqc_RD5_AWA&s
+        - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3FYPBtn8rEJNcMOTGRaNbRCX9BW1m1poJVw&s
+        - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN0GCZmRZNEH3UJnytJtDoTd3gl2-FFkwEfw&s
+        - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpL8NTcWPWpWzWlgXHmTgDNl0SZ2cpUsKxIg&s
+        - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW2hEa2yIocEely7E8JkNsTwrb_MlnhF9vYw&s
     - name: "Ảo thuật hài 'Lém'"
       address: "Bamos Coffee - Bình Thạnh"
       description: "Anh thấy cái này cũng zui zui giải trí nè :3, hình như nó start lúc 7h tối nma k biết hôm mình thì có vé khum :>. FB: https://www.facebook.com/AothuatHai.LemSG"
